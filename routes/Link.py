@@ -1,6 +1,7 @@
 from flask import Response, request, Blueprint
 from database.models import Link
 from mongoengine.errors import FieldDoesNotExist, NotUniqueError, DoesNotExist, ValidationError, InvalidQueryError
+from bson import ObjectId
 from routes.errors import SchemaValidationError, MovieAlreadyExistsError, InternalServerError, \
 UpdatingMovieError, DeletingMovieError, MovieNotExistsError
 
@@ -12,9 +13,8 @@ def getLinks():
     links = Link.objects().to_json()
     return Response(links, mimetype="application/json", status=200)
 
-#TODO Find what datatype that the ids for mongo are so we can cast.
 @bp.route("<id>", methods=("GET",))
-def getUniqueLinks(id):
+def getUniqueLinks(id: ObjectId):
     try:
         links = Link.objects.get(id=id).to_json()
         return Response(links, mimetype="application/json", status=200)
@@ -41,7 +41,7 @@ def postLink():
         raise InternalServerError
 
 @bp.route("/<id>", methods=("PUT",))
-def putLink(id):
+def putLink(id: ObjectId):
     try:
         body = request.get_json()
         Link.objects.get(id=id).update(**body)
@@ -54,7 +54,7 @@ def putLink(id):
         raise InternalServerError 
 
 @bp.route("/<id>", methods=("DELETE",))
-def deleteLink(id):
+def deleteLink(id: ObjectId):
     try:
         link = Link.objects.get(id=id)
         link.delete()
