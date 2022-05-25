@@ -32,7 +32,8 @@ def postLink():
         link.create_short_url()
         link.save()
         id = link.id
-        return {'id': str(id)}, 200
+        # TODO Move the domain name to a env variable that can be read the fastest.
+        return {'id': str(id), 'link': f'http://localhost:5000/{str(id)}'}, 200
     except (FieldDoesNotExist, ValidationError):
         raise SchemaValidationError
     except NotUniqueError:
