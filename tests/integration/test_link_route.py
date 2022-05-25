@@ -1,7 +1,7 @@
 import unittest
 import json
 
-from tests.BaseCase import BaseCase
+from tests.integration.BaseCase import BaseCase
 
 class TestLinkRoute(BaseCase):
 
