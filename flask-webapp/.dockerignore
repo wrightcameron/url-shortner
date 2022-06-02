@@ -1,0 +1,12 @@
+#Ignore the python virt environment directory
+flaskEnv/
+
+#Ignore tests directory
+tests/
+
+#Ignoring git and cache folders
+.git
+.cache
+
+#Ignoring all the markdown and class files
+*.md

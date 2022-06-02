@@ -1,0 +1,290 @@
+Benchmarking Shell Script for testing url shortner
+Getting hardware info
+- CPU
+Architecture:                    x86_64
+CPU op-mode(s):                  32-bit, 64-bit
+Byte Order:                      Little Endian
+Address sizes:                   39 bits physical, 48 bits virtual
+CPU(s):                          8
+On-line CPU(s) list:             0-7
+Thread(s) per core:              2
+Core(s) per socket:              4
+Socket(s):                       1
+NUMA node(s):                    1
+- Memory
+              total        used        free      shared  buff/cache   available
+Mem:           15Gi       8.5Gi       2.4Gi       1.0Gi       4.5Gi       5.6Gi
+Swap:         979Mi       377Mi       602Mi
+
+[TEST 1]: Basic Benchmark, 100 get requests with 10 sent at a time of all urls
+This is ApacheBench, Version 2.3 <$Revision: 1843412 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient).....done
+
+
+Server Software:        Werkzeug/2.1.2
+Server Hostname:        localhost
+Server Port:            5000
+
+Document Path:          /api/link
+Document Length:        153304 bytes
+
+Concurrency Level:      10
+Time taken for tests:   3.659 seconds
+Complete requests:      100
+Failed requests:        0
+Total transferred:      15347300 bytes
+HTML transferred:       15330400 bytes
+Requests per second:    27.33 [#/sec] (mean)
+Time per request:       365.923 [ms] (mean)
+Time per request:       36.592 [ms] (mean, across all concurrent requests)
+Transfer rate:          4095.83 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       0
+Processing:    61  350  94.0    354     662
+Waiting:       61  330  91.9    333     646
+Total:         61  350  93.9    354     662
+
+Percentage of the requests served within a certain time (ms)
+  50%    354
+  66%    383
+  75%    409
+  80%    416
+  90%    457
+  95%    484
+  98%    631
+  99%    662
+ 100%    662 (longest request)
+
+[TEST 2]: Test write.  Add the same link over and over again, currently the database doesn't care about duplicate links
+This is ApacheBench, Version 2.3 <$Revision: 1843412 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient).....done
+
+
+Server Software:        Werkzeug/2.1.2
+Server Hostname:        localhost
+Server Port:            5000
+
+Document Path:          /api/link
+Document Length:        100 bytes
+
+Concurrency Level:      10
+Time taken for tests:   0.287 seconds
+Complete requests:      100
+Failed requests:        0
+Total transferred:      26600 bytes
+Total body sent:        17200
+HTML transferred:       10000 bytes
+Requests per second:    348.95 [#/sec] (mean)
+Time per request:       28.657 [ms] (mean)
+Time per request:       2.866 [ms] (mean, across all concurrent requests)
+Transfer rate:          90.65 [Kbytes/sec] received
+                        58.61 kb/s sent
+                        149.26 kb/s total
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       0
+Processing:     6   26  15.7     20      75
+Waiting:        5   25  15.9     19      74
+Total:          6   26  15.7     20      75
+
+Percentage of the requests served within a certain time (ms)
+  50%     20
+  66%     23
+  75%     24
+  80%     30
+  90%     59
+  95%     66
+  98%     74
+  99%     75
+ 100%     75 (longest request)
+
+[TEST 3]: Basic Benchmark, 100 get requests with 10 sent at a time, same all urls check for increased time
+This is ApacheBench, Version 2.3 <$Revision: 1843412 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient).....done
+
+
+Server Software:        Werkzeug/2.1.2
+Server Hostname:        localhost
+Server Port:            5000
+
+Document Path:          /api/link
+Document Length:        165004 bytes
+
+Concurrency Level:      10
+Time taken for tests:   3.144 seconds
+Complete requests:      100
+Failed requests:        0
+Total transferred:      16517300 bytes
+HTML transferred:       16500400 bytes
+Requests per second:    31.81 [#/sec] (mean)
+Time per request:       314.370 [ms] (mean)
+Time per request:       31.437 [ms] (mean, across all concurrent requests)
+Transfer rate:          5130.96 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       0
+Processing:    27  302  83.6    309     543
+Waiting:       27  284  80.4    293     497
+Total:         27  302  83.6    309     544
+
+Percentage of the requests served within a certain time (ms)
+  50%    309
+  66%    332
+  75%    357
+  80%    370
+  90%    398
+  95%    424
+  98%    499
+  99%    544
+ 100%    544 (longest request)
+
+[TEST 4]: 100 get requests with 10 sent at a time, same url with same link
+This is ApacheBench, Version 2.3 <$Revision: 1843412 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient).....done
+
+
+Server Software:        Werkzeug/2.1.2
+Server Hostname:        localhost
+Server Port:            5000
+
+Document Path:          /api/link/628fc798692aa3c29ff04456
+Document Length:        119 bytes
+
+Concurrency Level:      10
+Time taken for tests:   0.292 seconds
+Complete requests:      100
+Failed requests:        0
+Total transferred:      28500 bytes
+HTML transferred:       11900 bytes
+Requests per second:    342.16 [#/sec] (mean)
+Time per request:       29.226 [ms] (mean)
+Time per request:       2.923 [ms] (mean, across all concurrent requests)
+Transfer rate:          95.23 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       1
+Processing:     5   28   8.8     26      58
+Waiting:        4   27   9.1     25      58
+Total:          6   28   8.8     26      58
+
+Percentage of the requests served within a certain time (ms)
+  50%     26
+  66%     29
+  75%     32
+  80%     36
+  90%     40
+  95%     47
+  98%     54
+  99%     58
+ 100%     58 (longest request)
+
+[TEST 5]: Concurrency test with writes and reads at same time.
+
+[PART 1]: Read Results
+This is ApacheBench, Version 2.3 <$Revision: 1843412 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient).....done
+
+
+Server Software:        Werkzeug/2.1.2
+Server Hostname:        localhost
+Server Port:            5000
+
+Document Path:          /api/link
+Document Length:        165121 bytes
+
+Concurrency Level:      10
+Time taken for tests:   3.262 seconds
+Complete requests:      100
+Failed requests:        99
+   (Connect: 0, Receive: 0, Length: 99, Exceptions: 0)
+Total transferred:      17183732 bytes
+HTML transferred:       17166832 bytes
+Requests per second:    30.66 [#/sec] (mean)
+Time per request:       326.195 [ms] (mean)
+Time per request:       32.620 [ms] (mean, across all concurrent requests)
+Transfer rate:          5144.46 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       0
+Processing:    52  312  72.9    320     491
+Waiting:       51  299  70.5    303     454
+Total:         52  312  72.9    320     491
+
+Percentage of the requests served within a certain time (ms)
+  50%    320
+  66%    343
+  75%    353
+  80%    365
+  90%    402
+  95%    410
+  98%    473
+  99%    491
+ 100%    491 (longest request)
+
+[PART 2]: Write Results
+This is ApacheBench, Version 2.3 <$Revision: 1843412 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient).....done
+
+
+Server Software:        Werkzeug/2.1.2
+Server Hostname:        localhost
+Server Port:            5000
+
+Document Path:          /api/link
+Document Length:        100 bytes
+
+Concurrency Level:      10
+Time taken for tests:   2.924 seconds
+Complete requests:      100
+Failed requests:        0
+Total transferred:      26600 bytes
+Total body sent:        17200
+HTML transferred:       10000 bytes
+Requests per second:    34.20 [#/sec] (mean)
+Time per request:       292.373 [ms] (mean)
+Time per request:       29.237 [ms] (mean, across all concurrent requests)
+Transfer rate:          8.88 [Kbytes/sec] received
+                        5.75 kb/s sent
+                        14.63 kb/s total
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       0
+Processing:    22  281  96.6    307     406
+Waiting:        5  276  96.5    296     404
+Total:         22  281  96.5    307     406
+
+Percentage of the requests served within a certain time (ms)
+  50%    307
+  66%    324
+  75%    336
+  80%    343
+  90%    380
+  95%    401
+  98%    404
+  99%    406
+ 100%    406 (longest request)

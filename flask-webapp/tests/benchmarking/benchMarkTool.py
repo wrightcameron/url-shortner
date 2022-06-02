@@ -1,6 +1,5 @@
 import json
 import os
-from re import I
 import requests
 
 def setUp():

@@ -5,6 +5,11 @@ from bson import ObjectId
 from routes.errors import SchemaValidationError, MovieAlreadyExistsError, InternalServerError, \
 UpdatingMovieError, DeletingMovieError, MovieNotExistsError
 
+def sanitizeUrl(url: str) -> str:
+    #TODO This needs alot more work, use regex cause there are alot of bed cases for this.
+    if 'https' not in url or 'http' not in url:
+        url = f"https://{url}"
+    return url
 
 bp = Blueprint("Link", __name__, url_prefix="/api/link")
 
@@ -28,6 +33,8 @@ def getUniqueLinks(id: ObjectId):
 def postLink():
     try:
         body = request.get_json()
+        if 'url' in body:
+            body['url'] = sanitizeUrl(body['url'])
         link = Link(**body)
         link.create_short_url()
         link.save()
@@ -45,6 +52,8 @@ def postLink():
 def putLink(id: ObjectId):
     try:
         body = request.get_json()
+        if 'url' in body:
+            body['url'] = sanitizeUrl(body['url'])
         Link.objects.get(id=id).update(**body)
         return '', 200
     except InvalidQueryError:
