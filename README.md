@@ -19,8 +19,18 @@ Install:
 
 ## Running
 
+### Development
+
 1. Start MongoDB Server, `docker run -it --rm -p 27017:27017 mongo`
 2. Start Flask App, `python run.py`
+
+### Production
+
+TODO Explain how to setup with gninx and gunicorn
+
+### Container
+
+TODO Explain how to setup the docker container
 
 ## Testing
 
@@ -54,9 +64,13 @@ A lot of system design questions seem to be super broad but at least often break
 
 Good luck out there!
 
+[Original Prompt from /u/gooeyblob/](https://www.reddit.com/r/cscareerquestions/comments/8na87e/were_reddit_engineers_here_to_answer_your/dzu3jgu/?context=3)
+
 ## Sources
 
-* [Original Prompt from /u/](reddit.com)
 * [Flask Rest API -Part:0- Setup & Basic CRUD API](https://dev.to/paurakhsharma/flask-rest-api-part-0-setup-basic-crud-api-4650)
 * [URL Shortening 101: How It Works, Use Cases and Examples](https://bitly.com/blog/url-shortening-101-how-it-works-use-cases-and-examples/)
-* [https://blog.hubspot.com/marketing/parts-url](https://blog.hubspot.com/marketing/parts-url)
+* [The 5 Basic Parts of a URL: A Short Guide](https://blog.hubspot.com/marketing/parts-url)
+* [Run a Django App with Gunicron in Ubuntu](https://rahmonov.me/posts/run-a-django-app-with-gunicorn-in-ubuntu-16-04/)
+* [Deploy and Secure a React — Flask App With Docker and Nginx](https://medium.com/swlh/deploy-and-secure-a-react-flask-app-with-docker-and-nginx-768ca582863b)
+* [How To Set Up Flask with MongoDB and Docker](https://www.digitalocean.com/community/tutorials/how-to-set-up-flask-with-mongodb-and-docker)

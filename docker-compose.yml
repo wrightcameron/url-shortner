@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  flask:
+    restart: always
+    container_name: flask-webapp
+    build:
+      context: ./flask-webapp
+    expose:
+      - 8000
+    environment:
+      - MONGODB_HOSTNAME=mongo-database
+  nginx:
+    container_name: nginx-reverse-proxy
+    build: ./nginx-reverseProxy
+    ports:
+      - 80:80
+      - 443:443
+  mongo:
+    container_name: mongo-database
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - url_shortner_mongodb_data_container:/data/db
+volumes:
+  url_shortner_mongodb_data_container:
