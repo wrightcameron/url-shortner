@@ -1,4 +1,4 @@
-# URL Shortner Web App
+# URL Shortner Project
 
 url-shortner is a project to build a url shortner that can handle large loads while also demostrating a knowlege of full stack development.
 
@@ -6,38 +6,23 @@ url-shortner is a project to build a url shortner that can handle large loads wh
 
 Install:
 
-* Python3
-* Pip
+* docker & docker-compose
 
 ## Build
 
-### Setup Python virtual environment
-
-1. In repository run,`python3 -m venv flaskEnv`
-2. Activate virtual environment, `source ./flaskEnv/bin/activate`
-3. Install required package, `pip install -r requirements.txt`
+1. Change directory to root dir of repository
+2. Run command, `docker-compose build`
 
 ## Running
 
-### Development
-
-1. Start MongoDB Server, `docker run -it --rm -p 27017:27017 mongo`
-2. Start Flask App, `python run.py`
-
 ### Production
 
-TODO Explain how to setup with gninx and gunicorn
+1. Run command, `docker-compose up -d`
 
-### Container
+### Development
 
-TODO Explain how to setup the docker container
-
-## Testing
-
-Testing is done using unittest, to start testing, follow the steps
-
-1. Start MongoDB Server, `docker run -it --rm -p 27017:27017 mongo`
-2. Start Flask App, `python -m unittest -b`
+Running this project for development or testing, its better to run each component indivudually or not in docker.
+As the Flask backend contains the most setup and testing view the readme in directory *flask-webapp*.
 
 ## Prompt
 

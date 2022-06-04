@@ -42,7 +42,15 @@ TODO: This won't work cause the webapp will not find the database at localhost:2
 
 ## Testing
 
+### Integration & Unit Testing
+
 Testing is done using unittest, to start testing, follow the steps
 
 1. Start MongoDB Server, `docker run -it --rm -p 27017:27017 mongo`
 2. Start Flask App, `python -m unittest -b`
+
+### Benchmarking
+
+Benchmarking is contained in directory ./tests/benchmarking.
+
+*apacheBenchmark.sh* is a script using apache benchmark to send multiple requests concurantly to the webserver.

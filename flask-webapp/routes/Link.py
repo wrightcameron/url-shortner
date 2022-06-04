@@ -36,7 +36,8 @@ def postLink():
         if 'url' in body:
             body['url'] = sanitizeUrl(body['url'])
         link = Link(**body)
-        link.create_short_url()
+        # link.create_short_url()  TODO Mongo has callables like validation and default.  Having those be called instead of here would be better.
+        link.addCreatedTIme()
         link.save()
         short_url = link.short_url
         id = link.id
