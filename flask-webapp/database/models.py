@@ -1,11 +1,14 @@
 from .db import db
 from bson import ObjectId
 
+from random import choice
+from string import ascii_lowercase, ascii_uppercase, digits
+
 class Link(db.Document):
     url = db.StringField(required=True, unique=False)
     short_url = db.StringField(required=True, unique=True)
 
-    #Need to create a compression algorithem that compresses the site.
-    # TODO Need a better shorter uuid, until then I can just use the unique id of the entire itself.
     def create_short_url(self):
-        self.short_url = str(ObjectId())
+        # Generate a random id, this id is a 7 character key of numbrs and upper/lowercase ascii
+        # TODO This could cause conflicts, so need to a way to handle conflicts or simulate one to program handle
+        self.short_url = ''.join(choice(ascii_lowercase + ascii_uppercase + digits) for i in range(7))

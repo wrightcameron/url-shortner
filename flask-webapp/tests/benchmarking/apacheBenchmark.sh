@@ -31,7 +31,7 @@ runBenchmark () {
     echo -e "\n[TEST 4]: $requests get requests with $concurrency sent at a time, same url with same link"
     # curl "localhost:5000/api/link" | python -c "import sys, json; data=json.load(sys.stdin); print([d['_id'] for d in data])"
     # TODO Add a paramater to the api/link get route to either limit responses back or get a random url with tags.  Incase of caching
-    urlId=$(curl "localhost:5000/api/link" | python -c "import sys, json; data=json.load(sys.stdin); print(data[0]['_id']['\$oid'])")
+    urlId=$(curl "${server}/api/link" | python -c "import sys, json; data=json.load(sys.stdin); print(data[0]['_id']['\$oid'])")
     ab -n $requests -c $concurrency $server/api/link/$urlId
 
     echo -e "\n[TEST 5]: Concurrency test with writes and reads at same time."

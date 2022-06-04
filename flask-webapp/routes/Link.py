@@ -4,10 +4,10 @@ from mongoengine.errors import FieldDoesNotExist, NotUniqueError, DoesNotExist, 
 from bson import ObjectId
 from routes.errors import SchemaValidationError, MovieAlreadyExistsError, InternalServerError, \
 UpdatingMovieError, DeletingMovieError, MovieNotExistsError
+import re
 
 def sanitizeUrl(url: str) -> str:
-    #TODO This needs alot more work, use regex cause there are alot of bed cases for this.
-    if 'https' not in url or 'http' not in url:
+    if re.search('^https?://', url) is None:
         url = f"https://{url}"
     return url
 
@@ -38,9 +38,10 @@ def postLink():
         link = Link(**body)
         link.create_short_url()
         link.save()
+        short_url = link.short_url
         id = link.id
         # TODO Move the domain name to a env variable that can be read the fastest.
-        return {'id': str(id), 'link': f'http://localhost:5000/{str(id)}'}, 200
+        return {'id': str(id), 'short_url': str(short_url), 'link': f'http://localhost:5000/{str(short_url)}'}, 200
     except (FieldDoesNotExist, ValidationError):
         raise SchemaValidationError
     except NotUniqueError:

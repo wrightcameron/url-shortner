@@ -12,7 +12,7 @@ app.config['MONGODB_SETTINGS'] = {
     'port': 27017
 }
 
-if os.environ['MONGODB_HOSTNAME'] is not None:
+if 'MONGODB_HOSTNAME' in os.environ:
     app.config['MONGODB_SETTINGS']['host'] = os.environ['MONGODB_HOSTNAME']
 
 initialize_db(app)

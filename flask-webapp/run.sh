@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# TODO Need to add reverse proxy above this
 # TODO If we don't have reverse proxy need to change the bind address
 gunicorn --bind 127.0.0.1:8000 --daemon --workers 1 --timeout 600 app:app
 # Check if gunicron could start properly

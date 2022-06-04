@@ -7,12 +7,11 @@ UpdatingMovieError, DeletingMovieError, MovieNotExistsError
 
 bp = Blueprint("Reroute", __name__, url_prefix='')
 
-@bp.route("/<id>", methods=("GET",))
-def shortUrlRedirect(id):
+@bp.route("/<short_url>", methods=("GET",))
+def shortUrlRedirect(short_url):
     try:
-        link = Link.objects.get(id=id)
+        link = Link.objects.get(short_url=short_url)
         url = link['url']
-        #TODO If https or http is not included in url, flask thinks this is an internal route.
         return redirect(url, 302)
     except DoesNotExist:
         raise MovieNotExistsError
