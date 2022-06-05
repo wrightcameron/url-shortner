@@ -13,6 +13,7 @@ def sanitizeUrl(url: str) -> str:
         url = f"https://{url}"
     return url
 
+
 bp = Blueprint("Link", __name__, url_prefix="/api/link")
 
 @bp.route("", methods=("GET",))
@@ -23,6 +24,7 @@ def getLinks():
 @bp.route("<id>", methods=("GET",))
 def getUniqueLinks(id: ObjectId):
     try:
+        # If the id is called random, get a random link
         if id == "random":
             links = choice(Link.objects.all()).to_json()
         else:
@@ -32,7 +34,6 @@ def getUniqueLinks(id: ObjectId):
         raise MovieNotExistsError
     except Exception:
         raise InternalServerError
-
 
 @bp.route("", methods=("POST",))
 def postLink():
@@ -44,6 +45,7 @@ def postLink():
         link.create_short_url()  
         #link.addCreatedTIme()  # TODO Mongo has callables like validation and default.  Having those be called instead of here would be better.
         link.save()
+        
         short_url = link.short_url
         id = link.id
         # TODO Move the domain name to a env variable that can be read the fastest.
