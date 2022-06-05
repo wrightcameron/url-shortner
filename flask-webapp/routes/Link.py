@@ -4,8 +4,10 @@ from mongoengine.errors import FieldDoesNotExist, NotUniqueError, DoesNotExist, 
 from bson import ObjectId
 from routes.errors import SchemaValidationError, MovieAlreadyExistsError, InternalServerError, \
 UpdatingMovieError, DeletingMovieError, MovieNotExistsError
+from random import choice
 import re
 
+#TODO Should we include this in the model?  If callable function it might make sense
 def sanitizeUrl(url: str) -> str:
     if re.search('^https?://', url) is None:
         url = f"https://{url}"
@@ -21,7 +23,10 @@ def getLinks():
 @bp.route("<id>", methods=("GET",))
 def getUniqueLinks(id: ObjectId):
     try:
-        links = Link.objects.get(id=id).to_json()
+        if id == "random":
+            links = choice(Link.objects.all()).to_json()
+        else:
+            links = Link.objects.get(id=id).to_json()
         return Response(links, mimetype="application/json", status=200)
     except DoesNotExist:
         raise MovieNotExistsError
@@ -36,8 +41,8 @@ def postLink():
         if 'url' in body:
             body['url'] = sanitizeUrl(body['url'])
         link = Link(**body)
-        # link.create_short_url()  TODO Mongo has callables like validation and default.  Having those be called instead of here would be better.
-        link.addCreatedTIme()
+        link.create_short_url()  
+        #link.addCreatedTIme()  # TODO Mongo has callables like validation and default.  Having those be called instead of here would be better.
         link.save()
         short_url = link.short_url
         id = link.id
