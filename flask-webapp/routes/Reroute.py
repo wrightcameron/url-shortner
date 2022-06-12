@@ -2,8 +2,7 @@ from flask import Response, request, Blueprint, redirect
 from database.models import Link
 from mongoengine.errors import FieldDoesNotExist, NotUniqueError, DoesNotExist, ValidationError, InvalidQueryError
 from bson import ObjectId
-from routes.errors import SchemaValidationError, MovieAlreadyExistsError, InternalServerError, \
-UpdatingMovieError, DeletingMovieError, MovieNotExistsError
+# from routes.errors import *
 
 bp = Blueprint("Reroute", __name__, url_prefix='')
 
@@ -14,6 +13,6 @@ def shortUrlRedirect(short_url):
         url = link['url']
         return redirect(url, 302)
     except DoesNotExist:
-        raise MovieNotExistsError
+        raise LinkNotExistsError
     except Exception:
         raise InternalServerError

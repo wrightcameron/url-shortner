@@ -1,72 +1,104 @@
-class InternalServerError(Exception):
-    pass
+# from flask import current_app as app
+from flask import jsonify
 
-class SchemaValidationError(Exception):
-    pass
+#TODO This is an abstract class so should force it be abstract
+class BaseException(Exception):
 
-class MovieAlreadyExistsError(Exception):
-    pass
+    def __init__(self, message=None, status_code=None, payload=None):
+        super().__init__()
+        self.message = message
+        if status_code is not None:
+            self.status_code = status_code
+        self.payload = payload
 
-class UpdatingMovieError(Exception):
-    pass
+    def to_dict(self):
+        rv = dict(self.payload or ())
+        rv['message'] = self.message
+        return rv
 
-class DeletingMovieError(Exception):
-    pass
+    @property
+    def message(self) -> str:
+        return self.message
 
-class MovieNotExistsError(Exception):
-    pass
+    @message.setter
+    def message(self, message: str) -> str:
+        self.message = message
 
-class EmailAlreadyExistsError(Exception):
-    pass
+    @property
+    def status_code(self) -> str:
+        return self.status_code
 
-class UnauthorizedError(Exception):
-    pass
+    @status_code.setter
+    def status_code(self, status_code: str) -> str:
+        self.status_code = status_code
 
-class EmailDoesnotExistsError(Exception):
-    pass
 
-class BadTokenError(Exception):
-    pass
+class ExceptionTest(BaseException):
+    status_code = 400
 
-errors = {
-    "InternalServerError": {
-        "message": "Something went wrong",
-        "status": 500
-    },
-     "SchemaValidationError": {
-         "message": "Request is missing required fields",
-         "status": 400
-     },
-     "MovieAlreadyExistsError": {
-         "message": "Movie with given name already exists",
-         "status": 400
-     },
-     "UpdatingMovieError": {
-         "message": "Updating movie added by other is forbidden",
-         "status": 403
-     },
-     "DeletingMovieError": {
-         "message": "Deleting movie added by other is forbidden",
-         "status": 403
-     },
-     "MovieNotExistsError": {
-         "message": "Movie with given id doesn't exists",
-         "status": 400
-     },
-     "EmailAlreadyExistsError": {
-         "message": "User with given email address already exists",
-         "status": 400
-     },
-     "UnauthorizedError": {
-         "message": "Invalid username or password",
-         "status": 401
-     },
-     "EmailDoesnotExistsError": {
-         "message": "Couldn't find the user with given email address",
-         "status": 400
-     },
-     "BadTokenError": {
-         "message": "Invalid token",
-         "status": 403
-     }
-}
+    def __init__(self, message="Hello World", status_code=None, payload=None):
+        super().__init__(message, status_code, payload)
+
+# TODO 500 errors should return stack traces, they are server errors that should be fixed
+class InternalServerError(BaseException):
+    status_code = 500
+    message = "Something went wrong"
+
+    def __init__(self, message=message, status_code=None, payload=None):
+        super().__init__(message, status_code, payload)
+
+
+class SchemaValidationError(BaseException):
+    status_code = 400
+    message = "Request is missing required fields"
+
+    def __init__(self, message=message, status_code=None, payload=None):
+        super().__init__(message, status_code, payload)
+
+
+class LinkDoesNotExist(BaseException):
+    status_code = 400
+    message = "Link with given id doesn't exist"
+
+    def __init__(self, message=message, status_code=None, payload=None):
+        super().__init__(message, status_code, payload)
+
+
+class LinkAlreadyExistsError(BaseException):
+    status_code = 400
+    message = "Link with given id already exists"
+
+    def __init__(self, message=message, status_code=None, payload=None):
+        super().__init__(message, status_code, payload)
+
+
+class UpdatingLinkError(BaseException):
+    status_code = 403
+    message = "Updating Link added by other is forbidden"
+
+    def __init__(self, message=message, status_code=None, payload=None):
+        super().__init__(message, status_code, payload)
+
+
+class DeletingLinkError(BaseException):
+    status_code = 403
+    message = "Deleting Link added by other is forbidden"
+
+    def __init__(self, message=message, status_code=None, payload=None):
+        super().__init__(message, status_code, payload)
+
+# Not used yet, no auth 
+class UnauthorizedError(BaseException):
+    status_code = 401
+    message = "Invalid username or password"
+
+    def __init__(self, message=message, status_code=None, payload=None):
+        super().__init__(message, status_code, payload)
+
+# Not used yet, no auth
+class BadTokenError(BaseException):
+    status_code = 403
+    message = "Invalid token"
+
+    def __init__(self, message=message, status_code=None, payload=None):
+        super().__init__(message, status_code, payload)

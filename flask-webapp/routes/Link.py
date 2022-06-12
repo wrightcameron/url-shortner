@@ -1,9 +1,9 @@
-from flask import Response, request, Blueprint
+from flask import abort, Response, request, Blueprint
 from database.models import Link
 from mongoengine.errors import FieldDoesNotExist, NotUniqueError, DoesNotExist, ValidationError, InvalidQueryError
 from bson import ObjectId
-from routes.errors import SchemaValidationError, MovieAlreadyExistsError, InternalServerError, \
-UpdatingMovieError, DeletingMovieError, MovieNotExistsError
+from bson.errors import InvalidId
+from routes.errors import *
 from random import choice
 import re
 
@@ -24,21 +24,24 @@ def getLinks():
 @bp.route("<id>", methods=("GET",))
 def getUniqueLinks(id: ObjectId):
     try:
+        if id is None:
+            abort(ExceptionTest.status_code, description="Id needed")
         # If the id is called random, get a random link
         if id == "random":
             links = choice(Link.objects.all()).to_json()
         else:
             links = Link.objects.get(id=id).to_json()
         return Response(links, mimetype="application/json", status=200)
-    except DoesNotExist:
-        raise MovieNotExistsError
+    except (ValidationError, InvalidId):
+        raise LinkDoesNotExist()
     except Exception:
-        raise InternalServerError
+        raise InternalServerError()
 
 @bp.route("", methods=("POST",))
 def postLink():
     try:
         body = request.get_json()
+        #TODO Check if contents of body are correct
         if 'url' in body:
             body['url'] = sanitizeUrl(body['url'])
         link = Link(**body)
@@ -51,9 +54,9 @@ def postLink():
         # TODO Move the domain name to a env variable that can be read the fastest.
         return {'id': str(id), 'short_url': str(short_url), 'link': f'http://localhost:5000/{str(short_url)}'}, 200
     except (FieldDoesNotExist, ValidationError):
-        raise SchemaValidationError
+        raise errors.SchemaValidationError
     except NotUniqueError:
-        raise MovieAlreadyExistsError
+        raise LinkAlreadyExistsError
     except Exception as e:
         raise InternalServerError
 
@@ -65,10 +68,12 @@ def putLink(id: ObjectId):
             body['url'] = sanitizeUrl(body['url'])
         Link.objects.get(id=id).update(**body)
         return '', 200
+    except (ValidationError, InvalidId):
+        raise LinkDoesNotExist()
     except InvalidQueryError:
         raise SchemaValidationError
     except DoesNotExist:
-        raise UpdatingMovieError
+        raise UpdatingLinkError
     except Exception:
         raise InternalServerError 
 
@@ -78,7 +83,7 @@ def deleteLink(id: ObjectId):
         link = Link.objects.get(id=id)
         link.delete()
         return '', 200
-    except DoesNotExist:
-        raise DeletingMovieError
+    except (ValidationError, InvalidId):
+        raise LinkDoesNotExist()
     except Exception:
         raise InternalServerError
