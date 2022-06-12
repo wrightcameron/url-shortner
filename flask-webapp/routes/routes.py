@@ -2,7 +2,6 @@ from routes import Link, Reroute
 from routes import errors
 from flask import jsonify
 
-# from flask_restful import Api
 
 def initialize_routes(app) -> None:
     """Register blueprint routes with flask app
@@ -14,6 +13,7 @@ def initialize_routes(app) -> None:
     app.register_blueprint(Link.bp)
     app.register_blueprint(Reroute.bp)
 
+
 def initialize_errors(app) -> None:
     """Register error handlers
 
@@ -23,7 +23,7 @@ def initialize_errors(app) -> None:
     @app.errorhandler(errors.ExceptionTest)
     def exception_test(e):
         return jsonify(e.to_dict()), e.status_code
-    
+
     @app.errorhandler(errors.InternalServerError)
     def exception_internal_server_error(e):
         return jsonify(e.to_dict()), e.status_code

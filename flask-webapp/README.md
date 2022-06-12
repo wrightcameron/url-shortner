@@ -42,6 +42,24 @@ TODO: This won't work cause the webapp will not find the database at localhost:2
 
 ## Testing
 
+### Linting
+
+Python linting uses pylint and flake8.
+
+A general pylint check will use following pyling command
+
+```bash
+source flaskEnv/bin/activate; \
+pylint $(git ls-files '*.py');
+```
+
+A general flake8 check will check for everything.  But for continous integration the command used will be `flake8 . --count --show-source --statistics --exclude flaskEnv/`
+
+```bash
+source flaskEnv/bin/activate; \
+flake8 --exclude flaskEnv/
+```
+
 ### Integration & Unit Testing
 
 Testing is done using unittest, to start testing, follow the steps

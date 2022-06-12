@@ -1,7 +1,4 @@
-# from flask import current_app as app
-from flask import jsonify
-
-#TODO This is an abstract class so should force it be abstract
+# TODO This is an abstract class so should force it be abstract
 class BaseException(Exception):
 
     def __init__(self, message=None, status_code=None, payload=None):
@@ -39,7 +36,10 @@ class ExceptionTest(BaseException):
     def __init__(self, message="Hello World", status_code=None, payload=None):
         super().__init__(message, status_code, payload)
 
-# TODO 500 errors should return stack traces, they are server errors that should be fixed
+# TODO 500 errors should return stack traces, they are server errors that
+# should be fixed
+
+
 class InternalServerError(BaseException):
     status_code = 500
     message = "Something went wrong"
@@ -87,16 +87,18 @@ class DeletingLinkError(BaseException):
     def __init__(self, message=message, status_code=None, payload=None):
         super().__init__(message, status_code, payload)
 
-# Not used yet, no auth 
+
 class UnauthorizedError(BaseException):
+    # Not used yet, no auth
     status_code = 401
     message = "Invalid username or password"
 
     def __init__(self, message=message, status_code=None, payload=None):
         super().__init__(message, status_code, payload)
 
-# Not used yet, no auth
+
 class BadTokenError(BaseException):
+    # Not used yet, no auth
     status_code = 403
     message = "Invalid token"
 

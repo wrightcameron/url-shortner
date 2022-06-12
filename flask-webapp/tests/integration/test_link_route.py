@@ -1,7 +1,7 @@
-import unittest
 import json
 
 from tests.integration.BaseCase import BaseCase
+
 
 class TestLinkRoute(BaseCase):
 
@@ -21,7 +21,8 @@ class TestLinkRoute(BaseCase):
         }
 
         # When
-        response = self.app.post('/api/link',
+        response = self.app.post(
+            '/api/link',
             headers={"Content-Type": "application/json"},
             data=json.dumps(link_payload))
         link_id = response.json['id']
@@ -31,14 +32,16 @@ class TestLinkRoute(BaseCase):
         self.assertEqual(200, response.status_code)
 
     def test_links_missing_http(self):
-        """If a http(s) is not passed in, chech that it is added so the redirect route works.
+        """If a http(s) is not passed in, chech that it is added so the
+           redirect route works.
         """
         # Given
         link_payload = {
             "url": "google.com",
         }
         # When
-        response = self.app.post('/api/link',
+        response = self.app.post(
+            '/api/link',
             headers={"Content-Type": "application/json"},
             data=json.dumps(link_payload))
         link_id = response.json['id']
@@ -51,13 +54,15 @@ class TestLinkRoute(BaseCase):
         self.assertEqual(200, response.status_code)
 
     def test_links_response(self):
-        """Test that /api/link can return 1:M responses (it should return all links stored)
+        """Test that /api/link can return 1:M responses
+            (it should return all links stored)
         """
         # Given
         link_payload = {
             "url": "https://google.com",
         }
-        response = self.app.post('/api/link',
+        response = self.app.post(
+            '/api/link',
             headers={"Content-Type": "application/json"},
             data=json.dumps(link_payload))
 
@@ -76,11 +81,12 @@ class TestLinkRoute(BaseCase):
         link_payload = {
             "url": "https://google.com",
         }
-        response = self.app.post('/api/link',
+        response = self.app.post(
+            '/api/link',
             headers={"Content-Type": "application/json"},
             data=json.dumps(link_payload))
 
-        #Get the mongo id
+        # Get the mongo id
         link_id = response.json['id']
 
         # When
@@ -98,12 +104,13 @@ class TestLinkRoute(BaseCase):
         link_payload = {
             "url": "https://google.com",
         }
-        response = self.app.post('/api/link',
+        response = self.app.post(
+            '/api/link',
             headers={"Content-Type": "application/json"},
             data=json.dumps(link_payload))
 
         # When
-        response = self.app.get(f'/api/link/random')
+        response = self.app.get('/api/link/random')
         added_link = response.json
 
         # Then
@@ -123,7 +130,8 @@ class TestLinkRoute(BaseCase):
             "short_url": "1234"
         }
 
-        response = self.app.post('/api/link',
+        response = self.app.post(
+            '/api/link',
             headers={"Content-Type": "application/json"},
             data=json.dumps(link_payload))
 
@@ -132,10 +140,11 @@ class TestLinkRoute(BaseCase):
         added_link = response.json
 
         # When
-        response = self.app.put(f'/api/link/{link_id}',
+        response = self.app.put(
+            f'/api/link/{link_id}',
             headers={"Content-Type": "application/json"},
             data=json.dumps(second_payload))
-        
+
         self.assertEqual(200, response.status_code)
 
         response = self.app.get(f'/api/link/{link_id}')
@@ -153,11 +162,12 @@ class TestLinkRoute(BaseCase):
         link_payload = {
             "url": "https://google.com",
         }
-        response = self.app.post('/api/link',
+        response = self.app.post(
+            '/api/link',
             headers={"Content-Type": "application/json"},
             data=json.dumps(link_payload))
 
-        #Get the mongo id
+        # Get the mongo id
         link_id = response.json['id']
 
         # When
