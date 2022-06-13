@@ -1,6 +1,6 @@
-# URL Shortner Project
+# URL shortener Project
 
-url-shortner is a project to build a url shortner that can handle large loads while also demostrating a knowlege of full stack development.
+URL-shortener is a project to build a URL shortener that can handle large loads while also demonstrating a knowledge of full stack development.
 
 ## Requirements
 
@@ -21,8 +21,8 @@ Install:
 
 ### Development
 
-Running this project for development or testing, its better to run each component indivudually or not in docker.
-As the Flask backend contains the most setup and testing view the readme in directory *flask-webapp*.
+Running this project for development or testing, its better to run each component individually or not in Docker.
+As the Flask back-end contains the most setup and testing view the readme in directory *./flask-webapp*.
 
 ## Prompt
 
