@@ -11,6 +11,7 @@ def shortUrlRedirect(short_url):
     try:
         link = Link.objects.get(short_url=short_url)
         url = link['url']
+        # 302 is temp redirect (browser doesn't catche, while 301 does.
         return redirect(url, 302)
     except DoesNotExist:
         raise LinkDoesNotExist

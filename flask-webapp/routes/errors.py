@@ -66,7 +66,7 @@ class LinkDoesNotExist(BaseException):
 
 class LinkAlreadyExistsError(BaseException):
     status_code = 400
-    message = "Link with given id already exists"
+    message = "Link with given url already exists"
 
     def __init__(self, message=message, status_code=None, payload=None):
         super().__init__(message, status_code, payload)

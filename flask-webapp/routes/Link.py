@@ -55,20 +55,28 @@ def postLink():
             body['url'] = sanitizeUrl(body['url'])
         else:
             abort(400)
+        # TODO Check if unique is set, if so return that short_url not make a new one
+        # Unique should be for users who want to make custom urls.  Non unique for random hashse
         link = Link(**body)
-        link.create_short_url()
+        link.create_short_url(body['url'])
         # link.addCreatedTIme()
         # TODO Mongo has callables like validation and default.
         # Having those be called instead of here would be better.
-        link.save()
+        msg = None
+        try:
+            link.save()
+        except NotUniqueError:
+            msg = "url already existed, not adding but returning existing value."
 
         short_url = link.short_url
         id = link.id
         # TODO Move the domain name to a env variable that can
         # be read the fastest.
         host = 'http://localhost:5000'
-        return {'id': str(id), 'short_url': str(short_url),
-                'link': f'{host}/{str(short_url)}'}, 200
+        res = {'id': str(id), 'short_url': str(short_url), 'link': f'{host}/{str(short_url)}'}
+        if msg:
+            res['msg'] = msg
+        return res, 200
     except (FieldDoesNotExist, ValidationError):
         raise SchemaValidationError
     except NotUniqueError:

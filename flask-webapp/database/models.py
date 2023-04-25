@@ -1,20 +1,34 @@
 from .db import db
-from random import choice
-from string import ascii_lowercase, ascii_uppercase, digits
+import datetime
+import hashlib
 
 
 class Link(db.Document):
-    url = db.StringField(required=True, unique=False)
+    # TODO Until better way to check uniqueness with seconard value, or custom short urls are added.  Keep url unique.
+    url = db.StringField(required=True, unique=True)
     short_url = db.StringField(required=True, unique=True)
-    # created = db.DateTimeField(required=False, unique=False)
+    isUnique = db.BooleanField(required=True, default=True)
+    created = db.DateTimeField(required=False, default=datetime.datetime.now)
 
-    def create_short_url(self):
-        # Generate a random id, this id is a 7 character key of
-        # numbrs and upper/lowercase ascii
-        # TODO This could cause conflicts, so need to a way to
-        # handle conflicts or simulate one to program handle
-        self.short_url = ''.join(choice(ascii_lowercase + ascii_uppercase
-                                        + digits) for i in range(7))
+    def create_short_url(self, longUrl: str) -> None:
+        self.short_url = self.hash_long_url(longUrl)
+
+    def hash_long_url(self, longUrl: str):
+        # TODO This should not be true, and we should't use an exception
+        while True:
+            m = hashlib.md5()
+            m.update(longUrl.encode('ascii'))
+            m.digest()
+            shortUrl = m.hexdigest()[:7]
+            # Check if shortUrl is in mongo db
+            try:
+                Link.objects.get(short_url=shortUrl)
+            except Exception:
+                print("url with short url was not found")
+                return shortUrl
+            else:
+                print("Hash existed in db.")
+                longUrl += "gnu"
 
     # def getRandomDocument(self):
     #     return db.link.aggregate([{ $sample: { size: 1 } }])

@@ -21,7 +21,7 @@ Install:
 
 ### Development
 
-Running this project for development or testing, its better to run each component individually or not in Docker.
+Running this project for development or testing, its better to run each component individually or not in Docker.  Mongo can be started individually with `docker-compose up -d mongo ...`.
 As the Flask back-end contains the most setup and testing view the readme in directory *./flask-webapp*.
 
 ## Prompt

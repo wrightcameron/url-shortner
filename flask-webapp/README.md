@@ -22,7 +22,7 @@ Install:
 ### Development
 
 1. Start MongoDB Server, `docker run -it --rm -p 27017:27017 mongo`
-2. Start Flask App, `python run.py`
+2. Start Flask App, `python app.py`
 
 ### Production
 

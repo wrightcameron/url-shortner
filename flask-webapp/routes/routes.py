@@ -1,4 +1,4 @@
-from routes import Link, Reroute
+from routes import Link, Reroute, shortUrl
 from routes import errors
 from flask import jsonify
 
@@ -12,6 +12,7 @@ def initialize_routes(app) -> None:
     initialize_errors(app)
     app.register_blueprint(Link.bp)
     app.register_blueprint(Reroute.bp)
+    app.register_blueprint(shortUrl.bp)
 
 
 def initialize_errors(app) -> None:
