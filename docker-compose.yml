@@ -22,5 +22,12 @@ services:
       - 27017:27017
     volumes:
       - url_shortner_mongodb_data_container:/data/db
+  adminer:
+        image: adminer-with-mongo
+        restart: always
+        environment:
+            ADMINER_DEFAULT_SERVER: mongo
+        ports:
+          - 8080:8080
 volumes:
   url_shortner_mongodb_data_container:
